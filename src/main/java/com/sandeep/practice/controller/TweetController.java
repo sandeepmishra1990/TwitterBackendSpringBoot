@@ -29,8 +29,11 @@ public class TweetController {
 		
 	//	System.out.println(res.getStackTrace());
 		
+		
 		System.out.println(conf.getAccessToken());
 		System.out.println(conf.getConsumerApiSecret());
+		
+	    System.out.println(conf.getAuthToken());
 		return new ResponseEntity<>("Success",HttpStatus.OK);
 	}
 	

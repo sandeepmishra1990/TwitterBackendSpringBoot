@@ -11,9 +11,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -68,17 +66,17 @@ public class ConfigProperties {
 	}
 	
 	@PostConstruct
-	@Loggable
-	public void getBearerToken()
+	public void getBearerToken() throws Exception
 	{
 		 String conKeys=consumerApi.concat(":").concat(consumerApiSecret);
 		 //encoding the keys using Base64 encoder
 		 String encodedString=Base64.getEncoder().encodeToString(conKeys.getBytes());
-		 String authToken=getToken(encodedString);
+		 getToken(encodedString);
 	}
 	
 	
-	private String getToken(String encodedString)
+	@SuppressWarnings("unchecked")
+	private String getToken(String encodedString) throws Exception
 	{
 		String url=TwitterEndpointsConstant.BASE_URL+TwitterEndpointsConstant.AUTHTOKEN_POST;
 		HttpHeaders headers=new HttpHeaders();
@@ -86,17 +84,36 @@ public class ConfigProperties {
 		//headers.set("grant_type","client_credentials");
 		headers.set("Authorization","Basic "+encodedString);
 		
-		
-		
 		MultiValueMap<String,String> multiMaps=new LinkedMultiValueMap<String,String>();
 		multiMaps.add("grant_type","client_credentials");
 		
 		HttpEntity entity=new HttpEntity<>(multiMaps,headers);
+		@SuppressWarnings("rawtypes")
 		Map response=restClient.postForObject(url,entity,Map.class);
-        
-        	System.out.println(response);
-     
-		return "abc";
+
+		return extractTokenAndSetAuthToken(response);
+	}
+	
+	private String extractTokenAndSetAuthToken(Map<String,String> response) throws Exception {
+	
+		if(response!=null)
+		{
+		String token_type=response.get("token_type").toString();
+		String access_token=response.get("access_token").toString();
+		return setAuthToken(token_type.concat(" ").concat(access_token));
+		}
+		else {
+			throw new Exception("response is null");
+		}
+	}
+	
+	public String getAuthToken() {
+		return authToken;
+	}
+	
+	public String setAuthToken(String authToken) {
+		this.authToken = authToken;
+		return authToken;
 	}
 
 	

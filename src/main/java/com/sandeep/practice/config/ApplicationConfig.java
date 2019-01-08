@@ -14,15 +14,6 @@ public class ApplicationConfig {
 	}
 	
 	
-//	@Bean
-//	public ConfigProperties getConfigPropertiesBean()
-//	{
-//		ConfigProperties config=new ConfigProperties();
-//		config.getBearerToken();
-//		
-//		return config;
-//		
-//	}
 	
 	
 

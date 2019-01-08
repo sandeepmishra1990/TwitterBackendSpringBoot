@@ -14,6 +14,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.sandeep.practice.annotation.Loggable;
@@ -66,6 +68,7 @@ public class ConfigProperties {
 	}
 	
 	@PostConstruct
+	@Loggable
 	public void getBearerToken()
 	{
 		 String conKeys=consumerApi.concat(":").concat(consumerApiSecret);
@@ -80,19 +83,19 @@ public class ConfigProperties {
 		String url=TwitterEndpointsConstant.BASE_URL+TwitterEndpointsConstant.AUTHTOKEN_POST;
 		HttpHeaders headers=new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		headers.set("grant_type","client_credentials");
-		headers.set("Authorization","Basic "+encodedString);
+		//headers.set("grant_type","client_credentials");
+		headers.set("Authorization","Basic SFk4R2pOZ3gxaWh6RXM5UmJ2UE9Walo1cDpHV1lCSTB6OVBDV0EwZzU4dmVaWGx4MmtESkxhVTEyT1VCYTZZd1B1bXNoVE1IUGJYbg==");
 		
-		HttpEntity entity=new HttpEntity<>(headers);
 		
-		ResponseEntity response=restClient.exchange(url, HttpMethod.POST,entity,Map.class);
-        if(response !=null && !response.equals(""))
-        {
-        	System.out.println(response.getBody());
-        	Map token=(Map)response.getBody();
-        	
-        	token.forEach((k,v) -> System.out.println(k+":::"+v));
-        }
+		
+		MultiValueMap<String,String> multiMaps=new LinkedMultiValueMap<String,String>();
+		multiMaps.add("grant_type","client_credentials");
+		
+		HttpEntity entity=new HttpEntity<>(multiMaps,headers);
+		Map response=restClient.postForObject(url,entity,Map.class);
+        
+        	System.out.println(response);
+     
 		return "abc";
 	}
 

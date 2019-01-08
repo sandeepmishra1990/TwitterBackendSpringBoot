@@ -73,7 +73,7 @@ public class ConfigProperties {
 	{
 		 String conKeys=consumerApi.concat(":").concat(consumerApiSecret);
 		 //encoding the keys using Base64 encoder
-		 String encodedString=Base64.getEncoder().encode(conKeys.getBytes()).toString();
+		 String encodedString=Base64.getEncoder().encodeToString(conKeys.getBytes());
 		 String authToken=getToken(encodedString);
 	}
 	
@@ -84,7 +84,7 @@ public class ConfigProperties {
 		HttpHeaders headers=new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		//headers.set("grant_type","client_credentials");
-		headers.set("Authorization","Basic SFk4R2pOZ3gxaWh6RXM5UmJ2UE9Walo1cDpHV1lCSTB6OVBDV0EwZzU4dmVaWGx4MmtESkxhVTEyT1VCYTZZd1B1bXNoVE1IUGJYbg==");
+		headers.set("Authorization","Basic "+encodedString);
 		
 		
 		

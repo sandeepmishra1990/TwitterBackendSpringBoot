@@ -25,13 +25,12 @@ public class LogAdvice {
 	
 	private org.slf4j.Logger logger=LoggerFactory.getLogger(this.getClass());
 	
-	@Before("@annotation(com.sandeep.practice.annotation.Loggable)")
-	public void before(JoinPoint joinPoint) throws Throwable 
-	{
-		logger.info("Entered method(before advice): {}"+ joinPoint);
-		
-		
-	}
+//	@Before("@annotation(com.sandeep.practice.annotation.Loggable)")
+//	public void before(JoinPoint joinPoint) throws Throwable 
+//	{
+//		logger.info("Entered method(before advice): {}"+ joinPoint);
+//		
+//	}
 	
 	
 	@Around("@annotation(com.sandeep.practice.annotation.Loggable)")

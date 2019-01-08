@@ -25,12 +25,12 @@ public class ErrorResponse {
 	public void setErrorCode(String errorCode) {
 		this.errorCode = errorCode;
 	}
-	@Loggable
+
 	public String getStackTrace() {
 		return stackTrace;
 	}
 	
-	@Loggable
+
 	public void setStackTrace(String stackTrace) {
 		this.stackTrace = stackTrace;
 	}

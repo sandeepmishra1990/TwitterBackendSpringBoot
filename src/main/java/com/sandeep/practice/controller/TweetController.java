@@ -7,27 +7,33 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sandeep.practice.config.ConfigProperties;
 import com.sandeep.practice.model.response.ErrorResponse;
 
 @RestController
 @RequestMapping("/twitter")
 public class TweetController {
 	
-	@Autowired
-	ErrorResponse res;
+    @Autowired
+	ConfigProperties conf;
 	
 	@GetMapping("/checkStatus")
-	public ResponseEntity<String> isActive()
+	public ResponseEntity<?> isActive()
 	{
 
 		//ErrorResponse res=new ErrorResponse();
 		
-		res.setErrorCode("404");
-		res.setMessage("not found");
-		res.setStackTrace("ssskdjgdriotueutmv jjkhshf ffjh fjksfkj");
+//		res.setErrorCode("404");
+//		res.setMessage("not found");
+//		res.setStackTrace("ssskdjgdriotueutmv jjkhshf ffjh fjksfkj");
 		
-		System.out.println(res.getStackTrace());
-		return new ResponseEntity<>("success",HttpStatus.OK);
+	//	System.out.println(res.getStackTrace());
+		
+		System.out.println(conf.getAccessToken());
+		System.out.println(conf.getConsumerApiSecret());
+		return new ResponseEntity<>("Success",HttpStatus.OK);
 	}
+	
+	
 
 }
